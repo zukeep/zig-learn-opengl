@@ -30,6 +30,18 @@ pub const Shader = struct {
             gl.DeleteProgram(self.program);
         }
     }
+
+    pub fn setBool(self: *Shader, name: [:0]const u8, value: bool) void {
+        gl.Uniform1i(gl.GetUniformLocation(self.program, name), value);
+    }
+
+    pub fn setInt(self: *Shader, name: [:0]const u8, value: i32) void {
+        gl.Uniform1i(gl.GetUniformLocation(self.program, name), value);
+    }
+
+    pub fn setFloat(self: *Shader, name: [:0]const u8, value: f32) void {
+        gl.Uniform1f(gl.GetUniformLocation(self.program, name), value);
+    }
 };
 
 pub fn NewShader(vertexShaderPath: []const u8, fragmentShaderPath: []const u8) !Shader {
