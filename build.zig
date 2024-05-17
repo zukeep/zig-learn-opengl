@@ -1,12 +1,14 @@
 const std = @import("std");
 
+const CFlags = &.{};
+
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
         .name = "game",
-        .root_source_file = .{ .path = "src/x_getting_started_shaders_ex3.zig" },
+        .root_source_file = .{ .path = "src/4_getting_started_textures.zig" },
         .target = target,
         .optimize = optimize,
     });
@@ -25,6 +27,16 @@ pub fn build(b: *std.Build) void {
         .profile = .core,
     });
     exe.root_module.addImport("gl", gl_bindings);
+
+    // Add stb_image
+    // Credit to https://medium.com/@eddo2626/lets-learn-zig-4-using-c-libraries-in-zig-5fcc3206f0dc
+
+    exe.addIncludePath(.{
+        .path = "src/lib/",
+    });
+
+    exe.linkLibC();
+    // exe.defineCMacro("STB_IMAGE_IMPLEMENTATION", null);
 
     // Add the executable as an artifact
     b.installArtifact(exe);
